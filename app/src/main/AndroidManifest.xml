@@ -12,8 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Backofficeproject"
         tools:targetApi="31">
+
         <activity
-            android:name=".PenilaianList"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,12 +22,14 @@
             </intent-filter>
         </activity>
 
-<!--        <activity android:name=".PenilaianList" android:exported="true" />-->
-        <activity android:name=".InputPenilaian" android:exported="true" />
+        <activity android:name=".PenilaianList" android:exported="true" />
+        <activity android:name=".InputPenilaian" android:exported="true" /> <!-- Perbaikan di sini -->
         <activity android:name=".LaporanPenilaianAdmin" android:exported="true" />
         <activity android:name=".PenilaianAdapter" android:exported="true" />
         <activity android:name=".LaporanKinerjaUser" android:exported="true" />
         <activity android:name=".LaporanAbsensi" android:exported="true" />
+        <activity android:name=".Login" android:exported="true" />
+        <activity android:name=".Register" android:exported="true" />
 
     </application>
 

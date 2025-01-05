@@ -66,4 +66,10 @@
         2 (Kurang): Layanan di bawah standar, sering lambat atau tidak efisien dalam merespon, banyak keluhan dari pelanggan.\n
         1 (Sangat Kurang): Layanan sangat buruk, tidak responsif terhadap pelanggan, kepuasan pelanggan sangat rendah.
     </string>
+
+    <string-array name="role_array">
+        <item>Pilih Role</item>
+        <item>Admin</item>
+        <item>User</item>
+    </string-array>
 </resources>

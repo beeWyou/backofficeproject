@@ -1,70 +1,80 @@
 package com.example.backofficeproject
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.widget.ArrayAdapter  // Pastikan mengimpor ArrayAdapter
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class Register: AppCompatActivity() {
-    private val database = FirebaseDatabase.getInstance().reference
+class Register : AppCompatActivity() {
+
+    private lateinit var etName: EditText
+    private lateinit var etEmail: EditText
+    private lateinit var etPassword: EditText
+    private lateinit var roleSpinner: Spinner
+    private lateinit var btnRegister: Button
+
+    private lateinit var database: FirebaseDatabase
+    private lateinit var myRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        // Referensi ke View
-        val resNama = findViewById<EditText>(R.id.res_Nama)
-        val resEmail = findViewById<EditText>(R.id.res_Email)
-        val resPassword = findViewById<EditText>(R.id.res_Password)
-        val resConfirmPassword = findViewById<EditText>(R.id.res_ConfirmPassword)
-        val resDivisi = findViewById<Spinner>(R.id.res_Divisi)
-        val btnRegister = findViewById<Button>(R.id.btnRegister)
+        // Inisialisasi Firebase
+        database = FirebaseDatabase.getInstance()
+        myRef = database.reference
 
-        // Spinner Divisi
-        val divisiOptions = listOf("IT", "Administrator", "Kepegawaian")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, divisiOptions)
+        // Inisialisasi komponen
+        etName = findViewById(R.id.etName)
+        etEmail = findViewById(R.id.etEmail)
+        etPassword = findViewById(R.id.etPassword)
+        roleSpinner = findViewById(R.id.roleSpinner)
+        btnRegister = findViewById(R.id.btnRegister)
+
+        // Menghubungkan spinner dengan data dari strings.xml
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.role_array, // Array yang didefinisikan di strings.xml
+            android.R.layout.simple_spinner_item
+        )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        resDivisi.adapter = adapter
+        roleSpinner.adapter = adapter
 
         btnRegister.setOnClickListener {
-            val nama = resNama.text.toString().trim()
-            val email = resEmail.text.toString().trim()
-            val password = resPassword.text.toString().trim()
-            val confirmPassword = resConfirmPassword.text.toString().trim()
-            val divisi = resDivisi.selectedItem.toString()
+            val name = etName.text.toString()
+            val email = etEmail.text.toString()
+            val password = etPassword.text.toString()
+            val selectedRole = roleSpinner.selectedItem.toString()
 
-            if (nama.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || divisi.isEmpty()) {
-                Toast.makeText(this, "Semua field harus diisi!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
+            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+                val userId = myRef.push().key
+
+                if (userId != null) {
+                    val user = User(name, email, password, selectedRole) // Menyertakan role
+
+                    myRef.child("users").child(userId).setValue(user)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Toast.makeText(this, "Pendaftaran Berhasil", Toast.LENGTH_SHORT).show()
+
+                                // Intent untuk berpindah ke MainActivity
+                                val intent = Intent(this@Register, MainActivity::class.java)
+                                startActivity(intent)
+                                finish() // Menutup Register Activity
+                            } else {
+                                Toast.makeText(this, "Pendaftaran Gagal", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                }
+            } else {
+                Toast.makeText(this, "Harap isi semua kolom", Toast.LENGTH_SHORT).show()
             }
-
-            if (password != confirmPassword) {
-                Toast.makeText(this, "Password dan Confirm Password tidak sesuai!", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            registerUser(nama, email, password, divisi)
         }
-    }
-
-    private fun registerUser(nama: String, email: String, password: String, divisi: String) {
-        // Role berdasarkan divisi
-        val role = if (divisi == "IT" || divisi == "Administrator") "admin" else "user"
-
-        // Generate ID pengguna secara manual
-        val userId = database.child("auth").push().key ?: return
-
-        // Buat objek auth
-        val auth = Auth(userId, nama, email, password, divisi, role)
-
-        // Simpan data ke Firebase Database
-        database.child("auth").child(userId).setValue(auth)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Registrasi berhasil!", Toast.LENGTH_SHORT).show()
-                finish() // Tutup aktivitas
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Gagal menyimpan data ke database!", Toast.LENGTH_SHORT).show()
-            }
     }
 }

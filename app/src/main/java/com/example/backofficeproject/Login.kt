@@ -1,98 +1,79 @@
 package com.example.backofficeproject
 
-
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.backofficeproject.databinding.ActivityLoginBinding
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.getValue
 
 class Login : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
-    private lateinit var database: DatabaseReference
-    private lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var etEmail: EditText
+    private lateinit var etPassword: EditText
+    private lateinit var btnLogin: Button
+    private lateinit var tvRegister: TextView
+
+    private lateinit var database: FirebaseDatabase
+    private lateinit var myRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_login)
 
-        // Referensi Firebase Database
-        database = FirebaseDatabase.getInstance().reference.child("auth")
-        // Inisialisasi SharedPreferences
-        sharedPreferences = getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+        // Inisialisasi Firebase
+        database = FirebaseDatabase.getInstance()
+        myRef = database.reference
 
-        binding.btnLogin.setOnClickListener {
-            val email = binding.etEmail.text.toString().trim()
-            val password = binding.etPassword.text.toString().trim()
+        etEmail = findViewById(R.id.etEmail)
+        etPassword = findViewById(R.id.etPassword)
+        btnLogin = findViewById(R.id.btnLogin)
+        tvRegister = findViewById(R.id.tvRegister)
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Email dan Password tidak boleh kosong!", Toast.LENGTH_SHORT).show()
+        btnLogin.setOnClickListener {
+            val email = etEmail.text.toString().trim()
+            val password = etPassword.text.toString().trim()
+
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                // Mencari pengguna dengan email yang dimasukkan
+                myRef.child("users").orderByChild("email").equalTo(email)
+                    .get()
+                    .addOnSuccessListener { snapshot ->
+                        if (snapshot.exists()) {
+                            // Jika email ditemukan, ambil data pengguna
+                            val user = snapshot.children.first().getValue(User::class.java)
+                            if (user?.password == password) {
+                                // Jika password cocok, periksa role pengguna
+                                if (user.role == "admin") {
+                                    // Jika admin, redirect ke DashboardAdmin
+                                    startActivity(Intent(this, DashboardAdmin::class.java))
+                                } else {
+                                    // Jika user biasa, redirect ke Menu
+                                    startActivity(Intent(this, Menu::class.java))
+                                }
+                                finish()  // Agar tidak bisa kembali ke halaman login setelah berhasil login
+                            } else {
+                                Toast.makeText(this, "Password Salah", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            Toast.makeText(this, "Akun tidak ditemukan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(this, "Gagal memverifikasi akun", Toast.LENGTH_SHORT).show()
+                    }
             } else {
-                loginUser(email, password)
+                Toast.makeText(this, "Harap isi email dan password", Toast.LENGTH_SHORT).show()
             }
         }
-    }
 
-    private fun loginUser(email: String, password: String) {
-        database.orderByChild("email")
-            .equalTo(email)
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        for (userSnapshot in snapshot.children) {
-                            val storedPassword = userSnapshot.child("password").value.toString()
-                            if (storedPassword == password) {
-                                // Ambil data pengguna
-                                val userId = userSnapshot.child("id").value.toString()
-                                val nama = userSnapshot.child("nama").value.toString()
-                                val divisi = userSnapshot.child("divisi").value.toString()
-                                val role = userSnapshot.child("role").value.toString()
-
-                                // Simpan sesi pengguna ke SharedPreferences
-                                val editor = sharedPreferences.edit()
-                                editor.putBoolean("isLoggedIn", true)
-                                editor.putString("userId", userId) // Simpan id
-                                editor.putString("nama", nama)
-                                editor.putString("divisi", divisi)
-                                editor.putString("role", role)
-                                editor.apply()
-
-                                // Tampilkan pesan dan pindah aktivitas sesuai role
-                                Toast.makeText(this@Login, "Selamat datang, $nama dari divisi $divisi!", Toast.LENGTH_SHORT).show()
-                                navigateBasedOnRole(role)
-                                return
-                            }
-                        }
-                        Toast.makeText(this@Login, "Password salah!", Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this@Login, "Email tidak ditemukan!", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e("FirebaseError", "Error: ${error.message}")
-                    Toast.makeText(this@Login, "Gagal memproses login. Coba lagi nanti.", Toast.LENGTH_SHORT).show()
-                }
-            })
-    }
-
-    private fun navigateBasedOnRole(role: String) {
-        when (role) {
-            "admin" -> {
-                val intent = Intent(this, DashboardAdmin::class.java)
-                startActivity(intent)
-                finish()
-            }
-            "user" -> {
-                val intent = Intent(this, Menu::class.java)
-                startActivity(intent)
-                finish()
-            }
+        tvRegister.setOnClickListener {
+            // Pindah ke halaman Register
+            startActivity(Intent(this@Login, Register::class.java))
         }
     }
 }
