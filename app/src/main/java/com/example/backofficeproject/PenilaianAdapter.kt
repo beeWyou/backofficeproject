@@ -2,6 +2,7 @@ package com.example.backofficeproject
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -25,7 +26,13 @@ class PenilaianAdapter : AppCompatActivity() {
 
         val container: LinearLayout = findViewById(R.id.penilaianContainer)
         val yearDropdown: Spinner = findViewById(R.id.yearDropdown)
-
+        val backArrow: ImageView = findViewById(R.id.backArrow)
+        backArrow.setOnClickListener {
+            // Intent untuk kembali ke halaman penilaian adapter
+            val intent = Intent(this, Menu::class.java)
+            startActivity(intent) // Memulai aktivitas penilaian adapter
+            finish() // Menutup activity ini sehingga tidak dapat kembali ke halaman ini
+        }
         // Dropdown
         val years = penilaianData.keys.toList()
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
@@ -51,7 +58,8 @@ class PenilaianAdapter : AppCompatActivity() {
                     textTanggal.text = penilaian.tanggal
 
                     lihatButton.setOnClickListener {
-                        val intent = Intent(this@PenilaianAdapter, EvaluationPenilaian::class.java)
+                        // Mengarahkan ke EvaluationActivity
+                        val intent = Intent(this@PenilaianAdapter, EvaluationActivity::class.java)
                         intent.putExtra("TANGGAL", penilaian.tanggal)
                         startActivity(intent)
                     }

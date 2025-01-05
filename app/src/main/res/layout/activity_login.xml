@@ -6,7 +6,7 @@
     android:padding="16dp"
     android:background="@color/pink">
 
-    <!-- Input untuk email -->
+    <!-- Input untuk nama -->
     <EditText
         android:id="@+id/etEmail"
         android:layout_width="match_parent"

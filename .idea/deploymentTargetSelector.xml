@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-01-05T13:12:53.424828500Z">
+        <DropdownSelection timestamp="2025-01-05T19:03:38.925569900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="PhysicalDevice" identifier="serial=RRCX903FYEN" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\HP\.android\avd\tiara_hp.avd" />
             </handle>
           </Target>
         </DropdownSelection>

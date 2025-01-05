@@ -67,8 +67,11 @@ class InputPenilaian : AppCompatActivity() {
         }
         val backArrow = findViewById<ImageView>(R.id.backArrow)
         backArrow.setOnClickListener {
-            onBackPressed()  // Untuk kembali ke activity sebelumnya
+            val intent = Intent(this, DashboardAdmin::class.java) // Ganti dengan nama activity dashboard admin
+            startActivity(intent)  // Pindah ke halaman dashboard admin
+            finish()  // Mengakhiri activity saat ini
         }
+
 
         // Save Data and Pass to List Activity
         buttonCreate.setOnClickListener {

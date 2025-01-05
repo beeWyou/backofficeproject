@@ -7,17 +7,17 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.ArrayAdapter  // Pastikan mengimpor ArrayAdapter
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import android.widget.ArrayAdapter
 
 class Register : AppCompatActivity() {
 
     private lateinit var etName: EditText
     private lateinit var etEmail: EditText
     private lateinit var etPassword: EditText
-    private lateinit var roleSpinner: Spinner
     private lateinit var btnRegister: Button
+    private lateinit var roleSpinner: Spinner  // Spinner untuk memilih role
 
     private lateinit var database: FirebaseDatabase
     private lateinit var myRef: DatabaseReference
@@ -30,50 +30,56 @@ class Register : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
         myRef = database.reference
 
-        // Inisialisasi komponen
+        // Menginisialisasi view
         etName = findViewById(R.id.etName)
         etEmail = findViewById(R.id.etEmail)
         etPassword = findViewById(R.id.etPassword)
-        roleSpinner = findViewById(R.id.roleSpinner)
         btnRegister = findViewById(R.id.btnRegister)
+        roleSpinner = findViewById(R.id.roleSpinner)  // Menambahkan Spinner
 
-        // Menghubungkan spinner dengan data dari strings.xml
-        val adapter = ArrayAdapter.createFromResource(
+        // Membuat adapter untuk Spinner
+        val roleAdapter = ArrayAdapter.createFromResource(
             this,
-            R.array.role_array, // Array yang didefinisikan di strings.xml
+            R.array.role_array,
             android.R.layout.simple_spinner_item
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        roleSpinner.adapter = adapter
+        roleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        roleSpinner.adapter = roleAdapter
 
+        // Menangani klik tombol Register
         btnRegister.setOnClickListener {
             val name = etName.text.toString()
             val email = etEmail.text.toString()
             val password = etPassword.text.toString()
-            val selectedRole = roleSpinner.selectedItem.toString()
+            val role = roleSpinner.selectedItem.toString() // Mendapatkan role yang dipilih
 
-            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                val userId = myRef.push().key
+            if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && role != "Pilih Role") {
+                // Membuat objek user baru
+                val userId = myRef.push().key  // Menghasilkan ID unik untuk pengguna
 
                 if (userId != null) {
-                    val user = User(name, email, password, selectedRole) // Menyertakan role
+                    // Membuat objek User dengan data yang diambil dari EditText dan Spinner
+                    val user = User(name, email, password, role)
 
+                    // Menyimpan data pengguna ke Firebase
                     myRef.child("users").child(userId).setValue(user)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Toast.makeText(this, "Pendaftaran Berhasil", Toast.LENGTH_SHORT).show()
 
-                                // Intent untuk berpindah ke MainActivity
+                                // Redirect ke MainActivity setelah berhasil register
                                 val intent = Intent(this@Register, MainActivity::class.java)
                                 startActivity(intent)
-                                finish() // Menutup Register Activity
+
+                                // Menutup Register Activity agar tidak bisa kembali ke halaman Register
+                                finish()
                             } else {
                                 Toast.makeText(this, "Pendaftaran Gagal", Toast.LENGTH_SHORT).show()
                             }
                         }
                 }
             } else {
-                Toast.makeText(this, "Harap isi semua kolom", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Harap isi semua kolom dan pilih role", Toast.LENGTH_SHORT).show()
             }
         }
     }

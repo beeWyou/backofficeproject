@@ -20,6 +20,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Logout Icon -->
+    <ImageView
+        android:id="@+id/logout_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="Logout Icon"
+        android:onClick="onLogoutClicked"
+        android:src="@drawable/ic_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Profile Picture -->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProfilePicture"
@@ -69,6 +82,8 @@
         android:layout_marginEnd="16dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="onCardEvaluasi1Clicked"
         app:layout_constraintTop_toBottomOf="@id/schedule"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -77,14 +92,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="@color/white">
 
             <!-- Evaluasi Kinerja 1 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:background="@color/white">
 
                 <ImageView
                     android:layout_width="40dp"
@@ -97,21 +115,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:background="@color/white">
 
                     <TextView
+                        android:id="@+id/input_penilaian"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Input Penilaian"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Last consulted on dd/mm/yyyy"
-                        android:textColor="#888888"
-                        android:textSize="12sp" />
+                        android:textSize="16sp"
+                        android:gravity="center" /> <!-- Teks berada di tengah -->
                 </LinearLayout>
             </LinearLayout>
 
@@ -119,7 +134,7 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- Card List Fitur Evaluasi Kinerja 2 (terpisah) -->
+    <!-- Card List Fitur Evaluasi Kinerja 2 -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardEvaluasi2"
         android:layout_width="match_parent"
@@ -129,6 +144,8 @@
         android:layout_marginEnd="16dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:onClick="onCardEvaluasi2Clicked"
         app:layout_constraintTop_toBottomOf="@id/cardEvaluasi1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -137,14 +154,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="@color/white">
 
             <!-- Evaluasi Kinerja 2 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="16dp">
+                android:padding="16dp"
+                android:gravity="center_vertical"
+                android:background="@color/white">
 
                 <ImageView
                     android:layout_width="40dp"
@@ -157,23 +177,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center_vertical"
+                    android:background="@color/white">
 
                     <TextView
+                        android:id="@+id/riwayat_penilaian"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Riwayat Penilaian"
                         android:textColor="#000000"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Last consulted on dd/mm/yyyy"
-                        android:textColor="#888888"
-                        android:textSize="12sp" />
+                        android:textSize="16sp"
+                        android:gravity="center" /> <!-- Teks berada di tengah -->
                 </LinearLayout>
-
             </LinearLayout>
 
         </LinearLayout>

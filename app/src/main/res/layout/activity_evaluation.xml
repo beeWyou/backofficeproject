@@ -20,6 +20,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Back Button (Arrow) -->
+        <ImageView
+            android:id="@+id/backArrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_back_arrow"
+        android:contentDescription="Back Arrow"
+        android:layout_marginEnd="16dp"
+        android:clickable="true"
+        android:focusable="true" />
+
         <!-- Profile Picture as Circle -->
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profilePicture"
@@ -93,9 +104,10 @@
             android:textStyle="bold" />
         <TextView
             android:id="@+id/evaluation"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Loading..." />
+            android:gravity="center"
+            android:text="@string/eval" />
 
         <!-- Absensi Rating -->
         <TextView
@@ -110,7 +122,7 @@
             android:id="@+id/ratingAbsensi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Loading..." />
+            android:text="3" />
 
         <!-- Professionalism Rating -->
         <TextView
@@ -125,7 +137,7 @@
             android:id="@+id/ratingProfessional"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Loading..." />
+            android:text="4" />
 
         <!-- Service Quality Rating -->
         <TextView
@@ -140,6 +152,6 @@
             android:id="@+id/ratingService"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Loading..." />
+            android:text="3" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

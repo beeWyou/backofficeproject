@@ -27,8 +27,14 @@ class PenilaianList : AppCompatActivity() {
 
         // Create array of years from 2010 to current year
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        val years = (2010..currentYear).map { it.toString() }.toTypedArray()
-
+        val years = (2020..currentYear).map { it.toString() }.toTypedArray()
+        val backArrow: ImageView = findViewById(R.id.backArrow)
+        backArrow.setOnClickListener {
+            // Intent untuk kembali ke halaman penilaian adapter
+            val intent = Intent(this, DashboardAdmin::class.java)
+            startActivity(intent) // Memulai aktivitas penilaian adapter
+            finish() // Menutup activity ini sehingga tidak dapat kembali ke halaman ini
+        }
         // Setup year spinner
         val yearAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, years)
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
