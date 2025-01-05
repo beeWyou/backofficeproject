@@ -1,0 +1,69 @@
+<resources>
+    <string name="app_name">Project</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="months_array">
+        <item>Januari</item>
+        <item>Februari</item>
+        <item>Maret</item>
+        <item>April</item>
+        <item>Mei</item>
+        <item>Juni</item>
+        <item>Juli</item>
+        <item>Agustus</item>
+        <item>September</item>
+        <item>Oktober</item>
+        <item>November</item>
+        <item>Desember</item>
+    </string-array>
+
+    <!-- Panduan Absensi -->
+    <!-- Panduan Penilaian untuk Absensi -->
+    <string name="absensi">Absensi (Izin, Cuti, Lembur)\n
+        Kriteria:\n
+        1. Kehadiran: Seberapa sering karyawan hadir di tempat kerja sesuai jadwal.\n
+        2. Pengajuan Izin: Kesesuaian prosedur dan ketepatan waktu dalam mengajukan izin.\n
+        3. Pemanfaatan Cuti: Apakah cuti digunakan sesuai aturan perusahaan.\n
+        4. Kesiapan Lembur: Kesediaan dan kemampuan untuk bekerja lembur ketika diperlukan.\n
+        \n
+        Panduan Rating:\n
+        5 (Sangat Baik): Kehadiran hampir sempurna, izin selalu diajukan tepat waktu, cuti dikelola dengan bijak, dan siap lembur kapan saja.\n
+        4 (Baik): Kehadiran baik dengan sedikit absen, izin biasanya tepat waktu, cuti dikelola dengan baik, dan lembur dilakukan jika diminta.\n
+        3 (Cukup): Kehadiran cukup baik, izin terkadang terlambat atau tidak sesuai prosedur, cuti digunakan dengan tidak terlalu bijak, lembur jarang dilakukan.\n
+        2 (Kurang): Kehadiran kurang memadai, sering terlambat dalam mengajukan izin, terlalu banyak cuti atau sering tidak lembur.\n
+        1 (Sangat Kurang): Sering absen, tidak mematuhi prosedur izin, cuti tidak terkendali, dan tidak pernah siap untuk lembur.
+    </string>
+
+    <!-- Panduan Penilaian untuk Sikap Profesional -->
+    <string name="professional">
+        Professional Attitude dan Behavior\n
+        Kriteria:\n
+        1. Kedisiplinan: Konsistensi dalam mematuhi aturan perusahaan.\n
+        2. Kerjasama: Kemampuan bekerja sama dengan tim.\n
+        3. Tanggung Jawab: Seberapa baik karyawan menyelesaikan tugas dan tanggung jawabnya.\n
+        4. Inisiatif: Kesediaan untuk mengambil tindakan tanpa harus diarahkan.\n
+        \n
+        Panduan Rating:\n
+        5 (Sangat Baik): Sangat disiplin, bekerja dengan sangat baik dalam tim, tanggung jawab selalu diselesaikan tepat waktu, dan sering menunjukkan inisiatif.\n
+        4 (Baik): Disiplin, kerjasama dengan baik, tanggung jawab biasanya selesai dengan baik, inisiatif cukup baik.\n
+        3 (Cukup): Disiplin sedang, bisa bekerja dengan tim meski ada kendala, tanggung jawab kadang terlambat, inisiatif jarang terlihat.\n
+        2 (Kurang): Disiplin rendah, sulit bekerjasama dalam tim, tugas sering tidak selesai, sangat jarang menunjukkan inisiatif.\n
+        1 (Sangat Kurang): Tidak disiplin, sulit bekerja dalam tim, tugas sering tidak selesai, dan tidak pernah menunjukkan inisiatif.
+    </string>
+
+    <!-- Panduan Penilaian untuk Kualitas Layanan -->
+    <string name="service">
+        Service Quality\n
+        Kriteria:\n
+        1. Kualitas Layanan: Seberapa baik karyawan memberikan layanan kepada pelanggan, baik internal maupun eksternal.\n
+        2. Respon terhadap Pelanggan: Seberapa cepat dan efisien karyawan menanggapi permintaan atau pertanyaan.\n
+        3. Kepuasan Pelanggan: Tingkat kepuasan pelanggan terhadap layanan yang diberikan.\n
+        \n
+        Panduan Rating:\n
+        5 (Sangat Baik): Kualitas layanan luar biasa, selalu cepat dan tepat dalam menanggapi pelanggan, tingkat kepuasan pelanggan sangat tinggi.\n
+        4 (Baik): Layanan berkualitas baik, umumnya tanggap terhadap pelanggan, kepuasan pelanggan tinggi.\n
+        3 (Cukup): Layanan memadai, namun terkadang lambat menanggapi pelanggan, kepuasan pelanggan cukup.\n
+        2 (Kurang): Layanan di bawah standar, sering lambat atau tidak efisien dalam merespon, banyak keluhan dari pelanggan.\n
+        1 (Sangat Kurang): Layanan sangat buruk, tidak responsif terhadap pelanggan, kepuasan pelanggan sangat rendah.
+    </string>
+</resources>
